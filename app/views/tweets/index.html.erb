@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Whatever, this is just a header</h1>
+
+<div class="row">
+  <% @tweet.each do |tweet| %>
+    <div class="col-md-6 col-md-offset-3">
+      <div class="panel panel-default">
+        <div class="panel panel-heading">
+          <%= link_to tweet.user.username %>
+          </strong><small>tweeted <%= time_ago_in_words(tweet.created_at) %> ago</small>
+        </div>
+        <div class="panel panel-body">
+          <%= tweet.message %>
+        </div>
+        <div class="panel-footer">
+          <%= link_to 'Show', tweet %>
+          <% if current_user.id == tweet.user.id %>
+            <%= link_to 'Edit', edit_tweet_path(tweet) %>
+            <%= link_to 'Destroy', tweet, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

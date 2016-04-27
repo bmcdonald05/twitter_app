@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="col-md-6 col-md-offset-3">
+  <div class="panel panel-default">
+    <div class="panel panel-heading">
+    	<%= link_to @tweet.user.username %>
+    </div>
+    <div class="panel panel-body">
+    	<%= @tweet.message %>
+    	<br>
+    	<br>
+    	Submitted: <%= @tweet.created_at.strftime('%m/%d/%Y at %I:%M%p') %>
+    </div>
+    <div class="panel-footer">
+      <p><%= render "shared/likes"  %></p>
+    	<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+		  <%= link_to 'Back', tweets_path %>
+    </div>
+  </div>
+</div>

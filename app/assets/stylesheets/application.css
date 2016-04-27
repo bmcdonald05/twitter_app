@@ -1,0 +1,22 @@
+/*
+ *= require_tree .
+ *= require_self
+ */
+
+body {
+	background-color: rgba(64,153,255,0.9);
+	font-family: Helvetica;
+}
+.navbar-brand{
+	font-weight: bold;
+}
+.navbar-collapse{
+	font-weight: bold;
+	color: rgb(64, 153, 255);
+}
+.panel-default{
+	font-weight: bold;
+}
+.cant-see-me{
+	display: none;
+}
