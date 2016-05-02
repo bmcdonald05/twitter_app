@@ -1,13 +1,13 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Whatever, this is just a header</h1>
+<h1></h1>
 
 <div class="row">
   <% @tweet.each do |tweet| %>
     <div class="col-md-6 col-md-offset-3">
       <div class="panel panel-default">
         <div class="panel panel-heading">
-          <%= link_to tweet.user.username %>
+          <%= link_to tweet.user.username, profile_path(tweet.user) %>
           </strong><small>tweeted <%= time_ago_in_words(tweet.created_at) %> ago</small>
         </div>
         <div class="panel panel-body">

@@ -1,0 +1,59 @@
+<div class="row">
+  <div class= "col-xs-3 panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+        <%= image_tag(current_user.avatar.url(:small)) %>
+        <h3><%= current_user.name %></h3>
+        <h5><%= current_user.username %></h5>
+      </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <span class="small text">TWEETS</span><br />
+          <%= current_user.tweets.count %>
+        </div>
+        <div class="col-xs-4">
+          <span class="small text">FOLLOWING</span><br />
+          <%= current_user.relationships.count %>
+          </div>
+        <div class="col-xs-4">
+          <span class="small text">FOLLOWERS</span><br />
+          <%= current_user.inverse_relationships.count %>
+          </div>
+      </div>
+      <h5><p><%= current_user.bio %></p></h5>
+      <h5><%= current_user.location %></h5>
+      <h5>Joined on <%= current_user.created_at.strftime("%B %Y") %></h5>
+    </div>
+    </div>
+    <div class= "col-xs-1"></div>
+
+    <div class= "col-xs-7 panel panel-default">
+      <div class="panel-body">
+        <div class="well well-lg">
+          <%= render 'tweets/form' %>
+        </div>
+        <% @tweets.each do |tweet|%>
+        <%= image_tag(tweet.user.avatar.url(:thumb)) %>
+        <strong><%= tweet.user.username %> </strong><small>tweeted <%= time_ago_in_words(tweet.created_at) %> ago</small>
+        <br />
+        <br />
+        <%= tweet.message %>
+        <br />
+        <br />
+        <% if current_user.likes?(tweet) %>
+          <%= link_to tweet_like_path(tweet), method: :delete do %>
+            <i class="glyphicon glyphicon-heart"></i>
+          <% end %>
+
+          <% else %>
+            <%= link_to tweet_like_path(tweet), method: :post do %>
+            <i class="glyphicon glyphicon-heart"></i>
+          <% end %>
+        <% end %>
+        <br />
+        <hr>
+        <% end %>
+      </div>
+
+  </div>
+</div>

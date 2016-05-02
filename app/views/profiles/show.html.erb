@@ -1,45 +1,67 @@
-
 <div class="row">
-  <div class= "col-xs-4">
-  <h3><%= @user.name %></h3>
-  <h5><%= @user.username %></h5>
-  <h5><p><%= @user.bio %></p></h5>
-  <h5><%= @user.location %></h5>
-  <h5>Joined on <%= @user.created_at.strftime("%B %Y") %></h5>
+  <div class= "col-xs-3 panel panel-default">
+    <div class="panel-body">
+      <div class="row">
+          <%= image_tag(@user.avatar.url(:small)) %>
+              <h3><%= @user.name %></h3>
+                  <h5><%= @user.username %></h5>
+      </div>
+       <div class="row">
+         <div class="col-xs-4">
+           <span class="small text">TWEETS</span><br />
+                <%= @user.tweets.count %>
+          </div>
+           <div class="col-xs-4">
+             <span class="small text">FOLLOWING</span><br />
+              <%= @user.relationships.count %>
+                  </div>
+                  <div class="col-xs-4">
+             <span class="small text">FOLLOWERS</span><br />
+              <%= @user.inverse_relationships.count %>
+                  </div>
+         </div>
 
-  <%= @user.relationships.count %> Following
-  <br />
-  <% @user.relationships.each do |relationship| %>
-    <%=link_to relationship.friend.name, profile_path(relationship.friend) %>
-  <%end%>
-  <br />
-  <br />
-  <%= pluralize(@user.inverse_relationships.count, "Follower") %>.
-  <br />
-  <% @user.inverse_friends.each do |friend| %>
-    <%=link_to friend.name, profile_path(friend) %> <br />
-  <%end%>
-  </div>
 
-  <div class= "col-xs-7">
-    <div class="panel panel-default">
+        <h5><p><%= @user.bio %></p></h5>
+        <h5><%= @user.location %></h5>
+        <h5>Joined on <%= @user.created_at.strftime("%B %Y") %></h5>
+
+        <br />
+        <br />
+        <% if current_user.id != @user.id %>
+          <% if current_user.friends.include?(@user) %>
+           <%= link_to "Following", relationship_path(current_user.relationships.find_by_friend_id(@user)), :method => :delete, class: "btn btn-primary", id: "unfollow_btn" %>
+          <% else %>
+            <%= link_to "Follow", relationships_path(:friend_id => @user), method: :post, class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class= "col-xs-1"></div>
+
+  <div class= "col-xs-7 panel panel-default">
       <% @user.tweets.each do |tweet| %>
         <div class="panel-body">
+          <%= image_tag(tweet.user.avatar.url(:thumb)) %>
         <strong><%= tweet.user.username %> </strong><small>tweeted <%= time_ago_in_words(tweet.created_at) %> ago</small>
         <br />
         <br />
         <%= tweet.message %>
         </div>
+        <div class="panel-body">
+
+        <% if current_user.likes?(tweet) %>
+          <%= link_to tweet_like_path(tweet), method: :delete do %>
+            <i class="glyphicon glyphicon-heart"></i>
+          <%end%>
+         <% else %>
+          <%= link_to tweet_like_path(tweet), method: :post do %>
+            <i class="glyphicon glyphicon-heart"></i>
+          <%end%>
+        <% end %>
+        <br />
+        <hr>
+        </div>
       <% end %>
     </div>
   </div>
-</div>
-<br />
-<br />
-<% if current_user.id != @user.id %>
-  <% if current_user.friends.include?(@user) %>
-    <%= link_to "Unfollow", relationship_path(current_user.relationships.find_by_friend_id(@user)), :method => :delete %>
-  <% else %>
-    <%= link_to "Follow", relationships_path(friend_id: @user), method: :post %>
-  <% end %>
-<% end %>

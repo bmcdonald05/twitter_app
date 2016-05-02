@@ -17,4 +17,6 @@ Rails.application.routes.draw do
 
   get "profiles" => "profiles#index"
 
+  get "feed" => "profiles#feed"
+
 end
