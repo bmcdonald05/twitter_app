@@ -16,7 +16,8 @@ class TweetsController < ApplicationController
 	end
 
  	def edit
-  end
+ 		
+  	end
 
 	def create
 		@tweet = Tweet.new(tweet_params)
